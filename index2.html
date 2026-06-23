@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sua Loja de Adesivos</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #050505; color: #fff; }
+    header { padding: 24px 8%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; position: sticky; top: 0; background: #050505; z-index: 10; }
+    .logo { font-size: 24px; font-weight: 900; color: #00bff3; text-transform: uppercase; }
+    .cart-btn { background: #00bff3; color: #000; border: none; padding: 12px 18px; border-radius: 999px; font-weight: 800; cursor: pointer; }
+    .hero { padding: 80px 8%; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+    .hero h1 { font-size: clamp(42px, 7vw, 86px); line-height: .9; text-transform: uppercase; color: #00bff3; }
+    .hero p { margin-top: 20px; font-size: 18px; color: #ddd; max-width: 560px; }
+    .hero img, .product-card img { width: 100%; border-radius: 22px; border: 1px solid #222; }
+    .section { padding: 40px 8% 80px; }
+    .product-card { background: #101010; border: 1px solid #1f1f1f; border-radius: 26px; padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .product-card h2 { font-size: 40px; text-transform: uppercase; color: #00bff3; }
+    .price { font-size: 34px; font-weight: 900; margin: 18px 0; }
+    .desc { color: #cfcfcf; line-height: 1.6; margin-bottom: 20px; }
+    .qty { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+    .qty button { width: 42px; height: 42px; border: none; border-radius: 12px; background: #00bff3; font-size: 22px; font-weight: 900; cursor: pointer; }
+    .qty span { font-size: 24px; min-width: 36px; text-align: center; }
+    .primary { width: 100%; padding: 16px; border: none; border-radius: 16px; background: #00bff3; color: #000; font-weight: 900; font-size: 16px; cursor: pointer; text-transform: uppercase; }
+    .cart { position: fixed; right: -420px; top: 0; width: 390px; max-width: 100%; height: 100%; background: #0d0d0d; border-left: 1px solid #222; padding: 24px; z-index: 20; transition: .3s; overflow-y: auto; }
+    .cart.open { right: 0; }
+    .cart-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .close { background: transparent; color: #fff; border: 1px solid #333; border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+    .cart-item { padding: 16px; background: #151515; border-radius: 16px; margin-bottom: 16px; }
+    .cart-row { display: flex; justify-content: space-between; margin: 10px 0; color: #ddd; }
+    label { display: block; margin-top: 14px; margin-bottom: 6px; color: #ddd; }
+    input, textarea, select { width: 100%; padding: 13px; border-radius: 12px; border: 1px solid #333; background: #050505; color: #fff; }
+    .total { font-size: 24px; font-weight: 900; color: #00bff3; margin: 20px 0; }
+    footer { padding: 30px 8%; border-top: 1px solid #111; color: #999; text-align: center; }
+    @media (max-width: 800px) { .hero, .product-card { grid-template-columns: 1fr; } header { padding: 18px 5%; } .hero, .section { padding-left: 5%; padding-right: 5%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Troque pelo nome da sua loja -->
+    <div class="logo">Sticker Store</div>
+    <button class="cart-btn" onclick="toggleCart()">Carrinho 🛒</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Adesivos com atitude</h1>
+        <p>Modelo de loja online para vender seus adesivos de forma simples, rápida e direta pelo WhatsApp.</p>
+      </div>
+      <!-- Troque o link abaixo pela imagem principal do seu adesivo -->
+      <img src="LIBERTADORES.png" alt="Adesivo Tua Obsessão Minha Realidade">
+    </section>
+
+    <section class="section">
+      <div class="product-card">
+        <img src="LIBERTADORES.png" alt="Produto adesivo">
+        <div>
+          <h2>Tua Obsessão Minha Realidade</h2>
+          <div class="price">R$ 5,00</div>
+          <p class="desc">Adesivo exclusivo com acabamento visual marcante. Escolha a quantidade, adicione ao carrinho e finalize seu pedido pelo WhatsApp.</p>
+          <div class="qty">
+            <button onclick="changeQty(-1)">−</button>
+            <span id="qty">1</span>
+            <button onclick="changeQty(1)">+</button>
+          </div>
+          <button class="primary" onclick="addToCart()">Adicionar ao carrinho</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="cart" id="cart">
+    <div class="cart-head">
+      <h2>Seu carrinho</h2>
+      <button class="close" onclick="toggleCart()">Fechar</button>
+    </div>
+
+    <div id="cartContent">
+      <p>Seu carrinho está vazio.</p>
+    </div>
+
+    <label>Nome</label>
+    <input type="text" id="customerName" placeholder="Seu nome">
+
+    <label>Telefone</label>
+    <input type="text" id="customerPhone" placeholder="Seu WhatsApp">
+
+    <label>Forma de entrega</label>
+    <select id="deliveryType" onchange="toggleAddress()">
+      <option value="Retirada">Retirada</option>
+      <option value="Envio">Envio</option>
+    </select>
+
+    <div id="addressBox" style="display:none;">
+      <label>Endereço para envio</label>
+      <textarea id="address" rows="3" placeholder="Rua, número, bairro, cidade"></textarea>
+    </div>
+
+    <div class="total" id="total">Total: R$ 0,00</div>
+    <button class="primary" onclick="finishOrder()">Finalizar pelo WhatsApp</button>
+  </aside>
+
+  <footer>
+    <!-- Troque pelas suas informações -->
+    © 2026 Sua Loja de Adesivos. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    const product = {
+      name: 'Tua Obsessão Minha Realidade',
+      price: 5
+    };
+
+    // Troque pelo número do WhatsApp da loja, com DDI e DDD. Exemplo: 5551999999999
+    const storeWhatsApp = '5551999999999';
+
+    let selectedQty = 1;
+    let cartQty = 0;
+
+    function toggleCart() {
+      document.getElementById('cart').classList.toggle('open');
+    }
+
+    function changeQty(value) {
+      selectedQty += value;
+      if (selectedQty < 1) selectedQty = 1;
+      document.getElementById('qty').innerText = selectedQty;
+    }
+
+    function addToCart() {
+      cartQty += selectedQty;
+      updateCart();
+      document.getElementById('cart').classList.add('open');
+    }
+
+    function updateCart() {
+      const cartContent = document.getElementById('cartContent');
+      const total = cartQty * product.price;
+
+      if (cartQty === 0) {
+        cartContent.innerHTML = '<p>Seu carrinho está vazio.</p>';
+      } else {
+        cartContent.innerHTML = `
+          <div class="cart-item">
+            <strong>${product.name}</strong>
+            <div class="cart-row"><span>Quantidade:</span><span>${cartQty}</span></div>
+            <div class="cart-row"><span>Valor unitário:</span><span>R$ ${product.price.toFixed(2).replace('.', ',')}</span></div>
+            <div class="cart-row"><span>Subtotal:</span><span>R$ ${total.toFixed(2).replace('.', ',')}</span></div>
+            <button class="close" onclick="clearCart()">Remover produto</button>
+          </div>
+        `;
+      }
+
+      document.getElementById('total').innerText = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function clearCart() {
+      cartQty = 0;
+      updateCart();
+    }
+
+    function toggleAddress() {
+      const type = document.getElementById('deliveryType').value;
+      document.getElementById('addressBox').style.display = type === 'Envio' ? 'block' : 'none';
+    }
+
+    function finishOrder() {
+      if (cartQty === 0) {
+        alert('Adicione um produto ao carrinho antes de finalizar.');
+        return;
+      }
+
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      const delivery = document.getElementById('deliveryType').value;
+      const address = document.getElementById('address').value.trim();
+      const total = cartQty * product.price;
+
+      if (!name || !phone) {
+        alert('Preencha nome e telefone.');
+        return;
+      }
+
+      if (delivery === 'Envio' && !address) {
+        alert('Preencha o endereço para envio.');
+        return;
+      }
+
+      const message = `Olá! Quero fazer um pedido:%0A%0AProduto: ${product.name}%0AQuantidade: ${cartQty}%0AValor unitário: R$ ${product.price.toFixed(2).replace('.', ',')}%0ATotal: R$ ${total.toFixed(2).replace('.', ',')}%0A%0ANome: ${name}%0ATelefone: ${phone}%0AEntrega: ${delivery}${delivery === 'Envio' ? `%0AEndereço: ${address}` : ''}`;
+
+      window.open(`https://wa.me/${storeWhatsApp}?text=${message}`, '_blank');
+    }
+
+    updateCart();
+  </script>
+</body>
+</html>
