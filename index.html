@@ -3,45 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GrêmioYerba Cultura de Stickers</title>
+<title>Grêmio Yerba — Cultura de Stickers</title>
+<link rel="icon" type="image/png" href="Imagens/yerba redondo.png">
+<link rel="apple-touch-icon" href="Imagens/yerba redondo.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-<div class="logo"><img src="Imagens/yerba redondo.png" alt="Logo Grêmio Yerba"></div>
-<nav>
-<a href="#home">Home</a>
-<a href="#produtos">Produtos</a>
-<a href="#sobre">Sobre</a>
-<a href="#contato">Contato</a>
-</nav>
+<header class="site-header">
+  <a class="brand" href="#home" aria-label="Grêmio Yerba — início">
+    <span class="logo"><img src="Imagens/yerba redondo.png" alt="Logo Grêmio Yerba"></span>
+    <span class="brand-copy">
+      <strong>GRÊMIO YERBA</strong>
+      <span>Cultura de stickers</span>
+    </span>
+  </a>
+  <nav class="site-nav" aria-label="Navegação principal">
+    <a href="#home">Início</a>
+    <a href="#produtos">Stickers</a>
+    <a href="#sobre">A marca</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <a class="header-cart" href="#carrinho">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 7H6.4M9 20a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm9 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
+    <span>Carrinho</span>
+    <span id="cartCount" class="cart-count" aria-live="polite" aria-label="0 itens no carrinho">0</span>
+  </a>
 </header>
 
-<section class="hero" id="home">
-  <div class="hero-content glass-panel">
-    <h1>CULTURA DE STICKERS</h1>
-    <p>Streetwear, futebol e cultura de arquibancada.</p>
-    <button>VER COLEÇÃO</button>
-  </div>
-</section>
+<main>
+  <section class="hero" id="home" aria-labelledby="hero-title">
+    <div class="hero-glow hero-glow-left" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-right" aria-hidden="true"></div>
+    <div class="hero-content glass-panel" data-reveal>
+      <p class="eyebrow">Grêmio Yerba apresenta</p>
+      <h1 id="hero-title">Cultura que <span>cola</span>.</h1>
+      <p>Stickers para quem carrega futebol, rua e arquibancada no peito.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#produtos">Explorar coleção <span aria-hidden="true">↓</span></a>
+        <a class="hero-link" href="#playlist">Ouvir a playlist</a>
+      </div>
+      <ul class="hero-highlights" aria-label="Destaques da marca">
+        <li>Arte autoral</li>
+        <li>Feito no Sul</li>
+        <li>R$ 5 por sticker</li>
+      </ul>
+    </div>
+  </section>
 
-<section id="playlist" class="section">
-  <h2>Playlist</h2>
-  <div class="playlist-embed">
-    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6XZ7u6X75NRud8kLYImmfj?utm_source=generator&si=4cb5e361578b41c1" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-  </div>
-</section>
+  <section id="playlist" class="section playlist-section" data-reveal>
+    <div class="section-heading">
+      <p class="eyebrow">No volume certo</p>
+      <h2>A trilha da arquibancada.</h2>
+      <p>Uma seleção para acompanhar a coleção, a resenha e o dia de jogo.</p>
+    </div>
+    <div class="playlist-embed">
+      <iframe data-testid="embed-iframe" title="Playlist Grêmio Yerba no Spotify" src="https://open.spotify.com/embed/playlist/6XZ7u6X75NRud8kLYImmfj?utm_source=generator&si=4cb5e361578b41c1" width="100%" height="352" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+  </section>
 
-<section id="produtos" class="grid"></section>
+  <section id="produtos" class="products-section" aria-labelledby="products-title">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">Coleção atual</p>
+      <h2 id="products-title">Escolha o seu lado.</h2>
+      <p>Adicione seus favoritos ao carrinho e monte a sua coleção.</p>
+    </div>
+    <div class="grid"></div>
+  </section>
 
-<section id="carrinho" class="section cart-section">
-  <h2>Carrinho</h2>
-  <div class="cart-empty">Nenhum produto no carrinho.</div>
-  <div class="cart-items"></div>
-  <div class="cart-actions">
-    <button class="empty-cart-button">Esvaziar carrinho</button>
+<section id="carrinho" class="section cart-section" data-reveal>
+  <div class="section-heading section-heading-compact">
+    <p class="eyebrow">Seu pedido</p>
+    <h2>Carrinho</h2>
+    <p>Revise os itens, complete seus dados e finalize pelo PIX.</p>
   </div>
-  <div class="cart-total"></div>
+  <div class="cart-layout">
+    <div class="cart-main">
+      <div class="cart-empty">
+        <span class="cart-empty-icon" aria-hidden="true">+</span>
+        <div>
+          <strong>Seu carrinho está vazio.</strong>
+          <p>Escolha stickers para montar a sua coleção.</p>
+          <a href="#produtos">Ver stickers</a>
+        </div>
+      </div>
+      <div class="cart-items" aria-live="polite"></div>
+      <div class="cart-actions">
+        <button type="button" class="empty-cart-button" disabled>Esvaziar carrinho</button>
+      </div>
+    </div>
+    <aside class="cart-summary" aria-labelledby="cart-summary-title">
+      <div class="cart-summary-header">
+        <h3 id="cart-summary-title">Resumo do pedido</h3>
+        <span class="cart-summary-lock">Compra segura</span>
+      </div>
+      <div class="cart-total" aria-live="polite"></div>
+      <p class="cart-payment-note">Pagamento via PIX após o envio do pedido.</p>
+    </aside>
+  </div>
+  <div class="checkout-heading">
+    <h3>Dados para finalizar</h3>
+    <p>Preencha as informações para receber as instruções de pagamento.</p>
+  </div>
   <form id="orderForm" action="https://formsubmit.co/e6d395f650d98a9415d1c2afce1104ee" method="POST" target="_blank" class="order-form">
     <div class="order-data">
       <label for="customerName">Seu nome *</label>
@@ -79,29 +141,58 @@
     <input type="hidden" name="order_details" id="orderDetailsField" />
     <button type="button" class="close-order-button">Fechar pedido</button>
   </form>
-  <div class="shipping-info">
-    <h3>Informações de envio pelos Correios</h3>
-    <p>Se escolher entrega, usamos os serviços padrão dos Correios:</p>
-    <ul>
-      <li><strong>PAC:</strong> entrega em 3 a 10 dias úteis, opção econômica.</li>
-      <li><strong>SEDEX:</strong> entrega em 1 a 3 dias úteis, opção expressa.</li>
-      <li><strong>Atenção:</strong> o prazo final depende do CEP de destino e da modalidade escolhida.</li>
-    </ul>
-  </div>
-  <div class="pix-info">
-    <p>Pagamento via PIX: <strong>05324755001</strong></p>
-    <p>Salvar e enviar comprovante no Instagram <strong>@gremioyerba</strong></p>
-    <p>Enviar junto: <strong>Nome Completo</strong> e <strong>Endereço + CEP</strong></p>
+  <div class="cart-info-grid">
+    <div class="shipping-info">
+      <h3>Informações de envio pelos Correios</h3>
+      <p>Se escolher entrega, usamos os serviços padrão dos Correios:</p>
+      <ul>
+        <li><strong>PAC:</strong> entrega em 3 a 10 dias úteis, opção econômica.</li>
+        <li><strong>SEDEX:</strong> entrega em 1 a 3 dias úteis, opção expressa.</li>
+        <li><strong>Atenção:</strong> o prazo final depende do CEP de destino e da modalidade escolhida.</li>
+      </ul>
+    </div>
+    <div class="pix-info">
+      <h3>Pagamento por PIX</h3>
+      <p>Chave: <strong>05324755001</strong></p>
+      <p>Envie o comprovante pelo Instagram <strong>@gremioyerba</strong>.</p>
+      <p>Inclua seu nome completo e endereço + CEP.</p>
+    </div>
   </div>
 </section>
 
-<section id="sobre" class="section">
-<h2>Sobre a Marca</h2>
-<p>Stickers exclusivos inspirados na cultura gaúcha, futebol e arte urbana.</p>
-</section>
+  <section id="sobre" class="section about-section" aria-labelledby="about-title">
+    <div class="about-panel">
+      <div data-reveal>
+        <p class="eyebrow">A marca</p>
+        <h2 id="about-title">Da arquibancada para onde você quiser colar.</h2>
+        <p>Stickers exclusivos inspirados na cultura gaúcha, no futebol e na arte urbana. Pequenos formatos para mostrar as histórias que você vive.</p>
+      </div>
+      <ul class="about-points" data-reveal aria-label="Pilares da Grêmio Yerba">
+        <li><span>01</span> Cultura de arquibancada</li>
+        <li><span>02</span> Arte e identidade local</li>
+        <li><span>03</span> Colecionável, seu e único</li>
+      </ul>
+    </div>
+  </section>
+</main>
 
-<footer id="contato">
-<p>Instagram @gremioyerba</p>
+<footer id="contato" class="site-footer">
+  <div class="footer-content">
+    <a class="footer-brand" href="#home">
+      <img src="Imagens/yerba redondo.png" alt="" aria-hidden="true">
+      <span>GRÊMIO YERBA</span>
+    </a>
+    <p class="footer-description">Stickers que carregam futebol, cultura gaúcha e arquibancada.</p>
+    <div class="footer-links" aria-label="Links do rodapé">
+      <a href="#produtos">Stickers</a>
+      <a href="#sobre">Sobre a marca</a>
+      <a href="https://www.instagram.com/gremioyerba/" target="_blank" rel="noreferrer">Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Grêmio Yerba. Feito para quem vive a cultura.</p>
+    <a href="#home">Voltar ao topo ↑</a>
+  </div>
 </footer>
 <script src="app.js"></script>
 </body>

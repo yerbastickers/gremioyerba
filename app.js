@@ -13,6 +13,9 @@ const grid=document.querySelector('.grid');
 const cartItemsContainer=document.querySelector('.cart-items');
 const cartEmpty=document.querySelector('.cart-empty');
 const cartTotal=document.querySelector('.cart-total');
+const cartCount=document.getElementById('cartCount');
+const headerCart=document.querySelector('.header-cart');
+const emptyCartButton=document.querySelector('.empty-cart-button');
 const orderForm=document.getElementById('orderForm');
 const orderDetailsField=document.getElementById('orderDetailsField');
 const customerNameInput=document.getElementById('customerName');
@@ -29,17 +32,58 @@ const customerStateInput=document.getElementById('customerState');
 const customerPhoneInput=document.getElementById('customerPhone');
 const customerEmailInput=document.getElementById('customerEmail');
 const PIX_KEY='05324755001';
-let cart=[];
+const CART_STORAGE_KEY='gremio-yerba-cart';
+const currencyFormatter=new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
+let cart=loadCart();
+
+function formatCurrency(value){
+  return currencyFormatter.format(value);
+}
+
+function loadCart(){
+  try {
+    const savedCart=JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
+    if(!Array.isArray(savedCart)) return [];
+
+    return savedCart.map(savedItem=>{
+      const product=produtos.find(item=>item.nome===savedItem.nome);
+      if(!product) return null;
+      return { ...product, quantidade:Math.max(1, Number(savedItem.quantidade) || 1) };
+    }).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+function saveCart(){
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart.map(item=>({ nome:item.nome, quantidade:item.quantidade }))));
+  } catch {
+    // O carrinho continua funcionando quando o navegador bloqueia armazenamento local.
+  }
+}
 
 function renderCart(){
   cartItemsContainer.innerHTML='';
+  const itemCount=cart.reduce((total, item)=>total+item.quantidade, 0);
+
+  if(cartCount){
+    cartCount.textContent=itemCount;
+    cartCount.setAttribute('aria-label', `${itemCount} ${itemCount===1 ? 'item' : 'itens'} no carrinho`);
+  }
+  if(headerCart) headerCart.classList.toggle('has-items', itemCount > 0);
+  if(emptyCartButton) emptyCartButton.disabled=itemCount===0;
+
   if(cart.length===0){
-    cartEmpty.style.display='block';
-    cartTotal.textContent='';
+    cartEmpty.hidden=false;
+    cartTotal.innerHTML=`
+      <div class="cart-total-row"><span>Subtotal</span><span>${formatCurrency(0)}</span></div>
+      <div class="cart-total-row cart-total-final"><span>Total</span><strong>${formatCurrency(0)}</strong></div>
+    `;
     return;
   }
 
-  cartEmpty.style.display='none';
+  cartEmpty.hidden=true;
   let total=0;
 
   cart.forEach(item=>{
@@ -48,20 +92,29 @@ function renderCart(){
     const subtotal=item.preco*item.quantidade;
     total += subtotal;
     line.innerHTML=`
+      <img class="cart-item-image" src="${item.imagem}" alt="${item.nome}">
       <div class="item-details">
         <strong>${item.nome}</strong>
+        <span class="item-unit-price">${formatCurrency(item.preco)} cada</span>
         <div class="item-quantity">
-          <button class="quantity-btn" data-action="decrease" data-name="${item.nome}">-</button>
-          <span>${item.quantidade}</span>
-          <button class="quantity-btn" data-action="increase" data-name="${item.nome}">+</button>
+          <button type="button" class="quantity-btn" data-action="decrease" data-name="${item.nome}" aria-label="Diminuir quantidade de ${item.nome}">−</button>
+          <span aria-label="Quantidade">${item.quantidade}</span>
+          <button type="button" class="quantity-btn" data-action="increase" data-name="${item.nome}" aria-label="Aumentar quantidade de ${item.nome}">+</button>
         </div>
       </div>
-      <div class="item-price"><strong>R$ ${subtotal.toFixed(2)}</strong></div>
+      <div class="item-price">
+        <strong>${formatCurrency(subtotal)}</strong>
+        <button type="button" class="remove-item-button" data-name="${item.nome}">Remover</button>
+      </div>
     `;
     cartItemsContainer.appendChild(line);
   });
 
-  cartTotal.textContent=`Total: R$ ${total.toFixed(2)} | PIX: ${PIX_KEY}`;
+  cartTotal.innerHTML=`
+    <div class="cart-total-row"><span>Itens (${itemCount})</span><span>${formatCurrency(total)}</span></div>
+    <div class="cart-total-row"><span>Entrega</span><span>Calculada após o CEP</span></div>
+    <div class="cart-total-row cart-total-final"><span>Total dos produtos</span><strong>${formatCurrency(total)}</strong></div>
+  `;
 }
 
 function addToCart(index){
@@ -70,8 +123,9 @@ function addToCart(index){
   if(existing){
     existing.quantidade += 1;
   } else {
-    cart.push({nome:produto.nome,preco:produto.preco,quantidade:1});
+    cart.push({ ...produto, quantidade:1 });
   }
+  saveCart();
   renderCart();
 }
 
@@ -82,20 +136,56 @@ function updateQuantity(nome, delta){
   if(item.quantidade <= 0){
     cart = cart.filter(i=>i.nome !== nome);
   }
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(nome){
+  cart=cart.filter(item=>item.nome !== nome);
+  saveCart();
   renderCart();
 }
 
 function clearCart(){
   cart = [];
+  saveCart();
   renderCart();
 }
 
 produtos.forEach((p,index)=>{
   const el=document.createElement('div');
   el.className='card';
-  el.innerHTML=`<div class="product-image"><img src="${p.imagem}" alt="${p.nome}"><span class="watermark">VISUALIZAÇÃO</span></div><h3>${p.nome}</h3><p>R$ ${p.preco.toFixed(2)}</p><button class="add-button" data-index="${index}">Adicionar</button>`;
+  el.dataset.reveal='';
+  el.style.setProperty('--reveal-delay', `${index * 90}ms`);
+  el.innerHTML=`<div class="product-image"><img src="${p.imagem}" alt="${p.nome}"><span class="watermark">Visualização</span></div><h3>${p.nome}</h3><p>R$ ${p.preco.toFixed(2)}</p><button class="add-button" data-index="${index}">Adicionar</button>`;
   grid.appendChild(el);
 });
+
+function initScrollReveal(){
+  const elements=document.querySelectorAll('[data-reveal]');
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(reducedMotion || !('IntersectionObserver' in window)){
+    elements.forEach(element=>element.classList.add('is-revealed'));
+    return;
+  }
+
+  const observer=new IntersectionObserver((entries, currentObserver)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-revealed');
+        currentObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -32px' });
+
+  elements.forEach(element=>{
+    element.classList.add('scroll-reveal');
+    observer.observe(element);
+  });
+}
+
+initScrollReveal();
 
 grid.addEventListener('click', event => {
   if(event.target.matches('.add-button')){
@@ -109,6 +199,9 @@ cartSection.addEventListener('click', event => {
     const action=event.target.dataset.action;
     const nome=event.target.dataset.name;
     updateQuantity(nome, action === 'increase' ? 1 : -1);
+  }
+  if(event.target.matches('.remove-item-button')){
+    removeFromCart(event.target.dataset.name);
   }
   if(event.target.matches('.empty-cart-button')){
     clearCart();
