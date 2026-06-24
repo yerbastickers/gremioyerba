@@ -222,7 +222,7 @@ body::after {
     position: absolute;
     inset: 0;
     z-index: -2;
-    background-image: url('Imagens/fundo site.png');
+    background-image: url('Imagens/fundo-site.png');
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -1119,7 +1119,7 @@ body::after {
     border: 1px solid rgba(255, 255, 255, .13);
     border-radius: 30px;
     background: linear-gradient(135deg, rgba(255, 255, 255, .14), rgba(63, 184, 234, .08));
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, .14), rgba(63, 184, 234, .08)), url('Imagens/PERSONA GREMIO YERBA.png');
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .14), rgba(63, 184, 234, .08)), url('Imagens/persona-gremio-yerba.png');
     background-position: right center;
     background-repeat: no-repeat;
     background-size: auto 100%;
