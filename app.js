@@ -1,12 +1,17 @@
 
 const produtos=[
-  {nome:'Yerba Redondo',preco:5.00,imagem:'Imagens/yerba redondo.png'},
-  {nome:'Libertadores',preco:5.00,imagem:'Imagens/LIBERTADORES.png'},
-  {nome:'Plata y Miedo',preco:5.00,imagem:'Imagens/plata y miedo.png'},
-  {nome:'Prancheta 1',preco:5.00,imagem:'Imagens/Prancheta 1.png'},
-  {nome:'Prancheta 2',preco:5.00,imagem:'Imagens/Prancheta 2.png'},
-  {nome:'Prancheta 3',preco:5.00,imagem:'Imagens/Prancheta 3.png'},
-  {nome:'Prancheta 4',preco:5.00,imagem:'Imagens/Prancheta 4.png'}
+  {nome:'Pack ',preco:20.00,imagem:'Imagens/Pack .png',destaque:true,unidades:4},
+  {nome:'Bob Marley',preco:5.00,imagem:'Imagens/Bob Marley.png'},
+  {nome:'Grêmio Yerba Cerveza',preco:5.00,imagem:'Imagens/Grêmio Yerba Cerveza.png'},
+  {nome:'Legalicen',preco:5.00,imagem:'Imagens/Legalicen.png'},
+  {nome:'Libertadores',preco:5.00,imagem:'Imagens/Libertadores.png'},
+  {nome:'MF Doom (1)',preco:5.00,imagem:'Imagens/MF Doom (1).png'},
+  {nome:'Plata y Miedo',preco:5.00,imagem:'Imagens/Plata y Miedo.png'},
+  {nome:'Smile',preco:5.00,imagem:'Imagens/Smile.png'},
+  {nome:'Yerba redondo',preco:5.00,imagem:'Imagens/Yerba redondo.png'},
+  {nome:'Yerba Trapo',preco:5.00,imagem:'Imagens/Yerba Trapo.png'},
+  {nome:'Yerbaboys Gothic',preco:5.00,imagem:'Imagens/Yerbaboys Gothic.png'},
+  {nome:'Yerbaboys TAG',preco:5.00,imagem:'Imagens/Yerbaboys TAG.png'}
 ];
 
 const grid=document.querySelector('.grid');
@@ -31,7 +36,7 @@ const customerCityInput=document.getElementById('customerCity');
 const customerStateInput=document.getElementById('customerState');
 const customerPhoneInput=document.getElementById('customerPhone');
 const customerEmailInput=document.getElementById('customerEmail');
-const PIX_KEY='05324755001';
+const PIX_KEY='d5b05951-6d8a-423d-8c5a-2a335f5b3f53';
 const CART_STORAGE_KEY='gremio-yerba-cart';
 const currencyFormatter=new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
 let cart=loadCart();
@@ -154,10 +159,12 @@ function clearCart(){
 
 produtos.forEach((p,index)=>{
   const el=document.createElement('div');
-  el.className='card';
+  el.className=`card${p.destaque ? ' card-featured' : ''}`;
   el.dataset.reveal='';
   el.style.setProperty('--reveal-delay', `${index * 90}ms`);
-  el.innerHTML=`<div class="product-image"><img src="${p.imagem}" alt="${p.nome}"><span class="watermark">Visualização</span></div><h3>${p.nome}</h3><p>R$ ${p.preco.toFixed(2)}</p><button class="add-button" data-index="${index}">Adicionar</button>`;
+  const destaqueTag=p.destaque ? '<span class="featured-tag">Destaque</span>' : '';
+  const unidadesInfo=p.unidades ? `<span class="unidades-info">${p.unidades} stickers</span>` : '';
+  el.innerHTML=`${destaqueTag}<div class="product-image"><img src="${p.imagem}" alt="${p.nome}"><span class="watermark">Visualização</span></div><h3>${p.nome}</h3>${unidadesInfo}<p>R$ ${p.preco.toFixed(2)}</p><button class="add-button" data-index="${index}">Adicionar</button>`;
   grid.appendChild(el);
 });
 
