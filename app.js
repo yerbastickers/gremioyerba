@@ -1,18 +1,18 @@
 
 const produtos=[
-  {nome:'Pack',preco:20.00,imagem:'Imagens/pack.png',destaque:true,unidades:4},
+  {nome:'Pack',preco:20.00,imagem:'Imagens/Pack .png',destaque:true,unidades:4},
   {nome:'Pack 2',preco:25.00,imagem:'Imagens/pack2.png',unidades:5},
-  {nome:'Bob Marley',preco:5.00,imagem:'Imagens/bob-marley.png'},
-  {nome:'Grêmio Yerba Cerveza',preco:5.00,imagem:'Imagens/gremio-yerba-cerveza.png'},
-  {nome:'Legalicen',preco:5.00,imagem:'Imagens/legalicen.png'},
-  {nome:'Libertadores',preco:5.00,imagem:'Imagens/libertadores.png'},
-  {nome:'MF Doom',preco:5.00,imagem:'Imagens/mf-doom.png'},
-  {nome:'Plata y Miedo',preco:5.00,imagem:'Imagens/plata-y-miedo.png'},
-  {nome:'Smile',preco:5.00,imagem:'Imagens/smile.png'},
-  {nome:'Yerba Redondo',preco:5.00,imagem:'Imagens/yerba-redondo.png'},
-  {nome:'Yerba Trapo',preco:5.00,imagem:'Imagens/yerba-trapo.png'},
-  {nome:'Yerbaboys Gothic',preco:5.00,imagem:'Imagens/yerbaboys-gothic.png'},
-  {nome:'Yerbaboys TAG',preco:5.00,imagem:'Imagens/yerbaboys-tag.png'}
+  {nome:'Bob Marley',preco:5.00,imagem:'Imagens/Bob Marley.png'},
+  {nome:'Grêmio Yerba Cerveza',preco:5.00,imagem:'Imagens/Grêmio Yerba Cerveza.png'},
+  {nome:'Legalicen',preco:5.00,imagem:'Imagens/Legalicen.png'},
+  {nome:'Libertadores',preco:5.00,imagem:'Imagens/Libertadores.png'},
+  {nome:'MF Doom',preco:5.00,imagem:'Imagens/MF Doom .png'},
+  {nome:'Plata y Miedo',preco:5.00,imagem:'Imagens/Plata y Miedo.png'},
+  {nome:'Smile',preco:5.00,imagem:'Imagens/Smile.png'},
+  {nome:'Yerba Redondo',preco:5.00,imagem:'Imagens/Yerba redondo.png'},
+  {nome:'Yerba Trapo',preco:5.00,imagem:'Imagens/Yerba Trapo.png'},
+  {nome:'Yerbaboys Gothic',preco:5.00,imagem:'Imagens/Yerbaboys Gothic.png'},
+  {nome:'Yerbaboys TAG',preco:5.00,imagem:'Imagens/Yerbaboys TAG.png'}
 ];
 
 const grid=document.querySelector('.grid');
